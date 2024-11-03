@@ -38,13 +38,11 @@ def phoneticGenerator(word):
 
 
 word_mapping = {
-                1 : "Do",
-                2 : "Re",
-                3 : "Mi",
-                4 : "Far",
-                5 : "So",
-                6 : "La",
-                7 : "Ti"
+                1 : "Mane",
+                2 : "Feet",
+                3 : "Day",
+                4 : "Trees",
+                5 : "Vine",
                 }
 
 def establish_words():

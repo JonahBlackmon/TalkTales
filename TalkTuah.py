@@ -6,54 +6,24 @@ import time
 import re
 
 azureReader = functions.SpeechToTextManager()
+default_path = functions.get_default()
+accuracy_map = {}
 
 sample_script = {
-                1 : "Doe, a deer, a female deer,",
-                2 : "Ray, a drop of golden sun,",
-                3 :  "Me, a name, I call myself,",
-                4 : "Far, a long long way to run,",
-                5 : "So, a needle pulling thread,",
-                6 : "Lah a note to follow so,",
-                7 : "Tea, a drink with jam and bread,",
-                8 : "That will bring us back to Doe"
+                1 : "The mighty lion prowls with a regal, golden mane.",
+                2 : "The sly little fox is quick on his feet.",
+                3 :  "The gentle panda munches on bamboo all day,",
+                4 : "The tall giraffe stretches high to the trees.",
+                5 : "The playful, little monkey swings from vine to vine.",
                 }
 
 word_mapping = {
-                1 : "Do",
-                2 : "Re",
-                3 : "Mi",
-                4 : "Fa",
-                5 : "So",
-                6 : "La",
-                7 : "Ti"
+                1 : "Mane",
+                2 : "Feet",
+                3 : "Day",
+                4 : "Trees",
+                5 : "Vine",
                 }
-
-def get_word_map():
-     return word_mapping
-
-
-
-def save_new():
-    sample_list = {}
-    index = 1
-    with open("words.txt", "r", encoding="utf-8") as text_file:
-            output = ""
-            print("Here")
-            print(text_file.readlines())
-            text = text_file.readlines()
-            for line in text:
-                 output = line
-                 output = output[:-1]
-                 words = output.split(", ")
-                 words_list = words
-                 sample_list[index] = words_list
-                 index = index + 1
-    
-
-    # print(sample_list)
-    return sample_list
-
-default_path = functions.get_default()
 
 def save_words():
      sample_list = {}
@@ -69,9 +39,6 @@ def save_words():
                index = index + 1
      return sample_list
 
-sample_list = save_words()
-print(sample_list)
-
 def child_check(index) :
     child_input = azureReader.speechtotext_from_mic()
     cleaned_text = re.sub(r'[^\w\s]', '', child_input)
@@ -84,10 +51,6 @@ def child_check(index) :
                 return True
     return False
 
-accuracy_map = {}
-for index in word_mapping:
-        accuracy_map[word_mapping.get(index)] = 0
-        
 def script_run(index, size):
     while (index <= size) :
         print(index)
@@ -104,10 +67,13 @@ def script_run(index, size):
         if (index > size) :
             break
 
-temp = len(sample_list)
-script_run(1, temp)
-print(accuracy_map)
 
-
+if __name__ == __main__:
+    sample_list = save_words()
+    for index in word_mapping:
+            accuracy_map[word_mapping.get(index)] = 0
+    temp = len(sample_list)
+    script_run(1, temp)
+    print(accuracy_map)
 
 
